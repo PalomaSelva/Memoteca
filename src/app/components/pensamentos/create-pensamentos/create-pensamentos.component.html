@@ -11,14 +11,23 @@
       formControlName="conteudo"
       placeholder="Digite o pensamento"
     >
+    <div class="mensagem__erro" *ngIf="formulario.get('conteudo')?.errors?.['required']">
+      O pensamento é obrigatório
+    </div>
     <label for="autoria">Autoria ou fonte</label>
     <input
-      type="text"
-      class="input"
-      id="autoria"
-      formControlName="autoria"
-      placeholder="Digite a autoria ou fonte"
+    type="text"
+    class="input"
+    id="autoria"
+    formControlName="autoria"
+    placeholder="Digite a autoria ou fonte"
     >
+    <div class="mensagem__erro" *ngIf="formulario.get('autoria')?.errors?.['required'] && formulario.get('autoria')?.touched">
+      A autoria é obrigatória!
+    </div>
+    <div class="mensagem__erro" *ngIf="formulario.get('autoria')?.errors?.['maxlength']">
+      O campo deve conter, no máximo, 15 caracteres!
+    </div>
     <label for="modelo">Selecione o modelo do card:</label>
     <div class="container-radio">
       <div class="radio-modelo">

@@ -22,13 +22,19 @@ export class CreatePensamentosComponent implements OnInit {
 
   ngOnInit(): void {
     this.formulario = this.formBuilder.group({
-      conteudo:['Formulário reativo', [Validators.required]],
-      autoria: [''],
+      conteudo:['Formulário reativo', Validators.compose([
+        Validators.required,
+        Validators.pattern(/(.|\s)*\S(.|\s)*/),
+      ])],
+      autoria: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(15),
+      ])],
       modelo: ['modelo1']
     })
   }
   criarPensamento(){
-    console.log(this.formulario)
+    console.log(this.formulario.get('autoria')?.errors)
     if(this.formulario.valid){
       this.service.criar(this.formulario.value).subscribe(()=>{
         this.router.navigate(['/list'])
