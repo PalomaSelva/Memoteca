@@ -11,7 +11,7 @@
       formControlName="conteudo"
       placeholder="Digite o pensamento"
     >
-    <div class="mensagem__erro" *ngIf="formulario.get('conteudo')?.errors?.['required']">
+    <div class="mensagem__erro" *ngIf="formulario.get('conteudo')?.errors?.['required'] && formulario.get('conteudo')?.touched">
       O pensamento é obrigatório
     </div>
     <label for="autoria">Autoria ou fonte</label>
