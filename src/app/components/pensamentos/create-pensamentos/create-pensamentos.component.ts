@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Pensamento } from '../pensamento';
 import { PensamentoService } from '../pensamento.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-pensamentos',
@@ -10,24 +11,32 @@ import { Router } from '@angular/router';
 })
 export class CreatePensamentosComponent implements OnInit {
 
-  constructor(private service:PensamentoService, private router: Router) { }
+//  a (!) é usada para indicar ao compilador TypeScript que você tem certeza de que uma variável não será nula ou indefinida em tempo de execução
+  formulario!: FormGroup
 
-  pensamento: Pensamento  = {
-    conteudo: '',
-    autoria:'',
-    modelo:''
-  }
+  constructor(
+    private service:PensamentoService,
+    private router: Router,
+    private formBuilder:FormBuilder) { }
 
-  criarPensamento(){
-    this.service.criar(this.pensamento).subscribe(()=>{
-      this.router.navigate(['/list'])
+
+  ngOnInit(): void {
+    this.formulario = this.formBuilder.group({
+      conteudo:['Formulário reativo', [Validators.required]],
+      autoria: [''],
+      modelo: ['modelo1']
     })
-
+  }
+  criarPensamento(){
+    console.log(this.formulario)
+    if(this.formulario.valid){
+      this.service.criar(this.formulario.value).subscribe(()=>{
+        this.router.navigate(['/list'])
+      })
+    }
   }
   cancelar(){
     alert("Ação cancelada")
-  }
-  ngOnInit(): void {
   }
 
 }
